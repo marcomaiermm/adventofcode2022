@@ -1,0 +1,26 @@
+# Go
+*.exe
+*.dll
+*.exe~
+*.dll~
+*.test
+*.out
+*.app
+
+# TypeScript
+node_modules/
+dist/
+yarn-error.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.db
+*.sqlite
+*.log
+*.egg-info/
+dist/
+build/
