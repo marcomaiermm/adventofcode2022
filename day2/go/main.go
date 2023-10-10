@@ -8,48 +8,60 @@ import (
 )
 
 type GameObj struct {
-	Name        string
-	WinsAgainst string
-	Points      int
+	Name         string
+	WinsAgainst  string
+	LosesAgainst string
+	Points       int
 }
 
 func getOutcome(choice string, opponentChoice string) int {
 
 	casesMap := make(map[string]GameObj)
-	casesMap["X"] = GameObj{
+
+	casesMap["A"] = GameObj{
 		// rock
-		Name:        "A",
-		WinsAgainst: "C",
-		Points:      1,
+		Name:         "A",
+		WinsAgainst:  "C",
+		LosesAgainst: "B",
+		Points:       1,
 	}
-	casesMap["Y"] = GameObj{
+
+	casesMap["B"] = GameObj{
 		// paper
-		Name:        "B",
-		WinsAgainst: "A",
-		Points:      2,
+		Name:         "B",
+		WinsAgainst:  "A",
+		LosesAgainst: "C",
+		Points:       2,
 	}
-	casesMap["Z"] = GameObj{
+
+	casesMap["C"] = GameObj{
 		// scissors
-		Name:        "C",
-		WinsAgainst: "B",
-		Points:      3,
+		Name:         "C",
+		WinsAgainst:  "B",
+		LosesAgainst: "A",
+		Points:       3,
 	}
 
-	shape := casesMap[choice]
+	opponentShape := casesMap[opponentChoice]
+	var playerShape GameObj
+	points := 0
 
-	isWin := shape.WinsAgainst == opponentChoice
-	isDraw := shape.Name == opponentChoice
-
-	if isWin {
-		return shape.Points + 6
+	switch choice {
+	case "Z":
+		playerShape = casesMap[opponentShape.LosesAgainst]
+		points = playerShape.Points + 6
+		fmt.Println(playerShape.Name, "wins against", opponentChoice, "->", points)
+	case "Y":
+		playerShape = opponentShape
+		points = playerShape.Points + 3
+		fmt.Println(playerShape.Name, "draw against", opponentChoice, "->", points)
+	default:
+		playerShape = casesMap[opponentShape.WinsAgainst]
+		points = playerShape.Points
+		fmt.Println(playerShape.Name, "loses against", opponentChoice, "->", points)
 	}
 
-	if isDraw {
-		return shape.Points + 3
-	}
-
-	return shape.Points
-
+	return points
 }
 
 func main() {
